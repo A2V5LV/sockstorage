@@ -58,9 +58,13 @@ HTTP 500 — произошла ошибка, не зависящая от вы�
 
 Примеры запросов:
 
-/api/socks?color=red&operation=moreThan&cottonPart=90 
+
+// /api/socks?color=red&operation=moreThan&cottonPart=90
+
 (должен вернуть общее количество красных носков с долей хлопка более 90%);
-/api/socks?color=black&operation=lessThan?cottonPart=10 
+
+// /api/socks?color=black&operation=lessThan?cottonPart=10
+
 (должен вернуть общее количество черных носков с долей хлопка менее 10%).
 
 Для хранения данных системы можно использовать любую реляционную базу данных.
@@ -68,9 +72,9 @@ HTTP 500 — произошла ошибка, не зависящая от вы�
 Технологии для построения сервиса могут быть выбраны произвольно.
 
 
-=========================================================================================================
-=========================================================================================================
-=========================================================================================================
+
+=============================================================================
+
 
 
 ОПИСАНИЕ РЕШЕНИЯ:
@@ -93,77 +97,7 @@ http://localhost:8080/api/socks/outcome
     "quantity" : 10
 }
 
-
-
-Создание и работа с БД на примере MySQL в Docker:
-
-docker run -d --name sockstorage -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql
-docker exec --interactive --tty sockstorage mysql -uroot -p
-CREATE DATABASE sockstorage;
-SHOW DATABASES;
-use sockstorage;
-show tables;
-select * from socks;
-drop table socks; (очистка таблицы)
-выбока из таблицы:
-select sum(s.quantity) from socks s where s.color = "RED" and s.cotton_part >= 70;
-или без псевдонима "s":
-select sum(socks.quantity) from socks where socks.color = "RED" and socks.cotton_part >= 70;
-
-//******//
-
-mysql> select * from socks;
-+----+-------+-------------+----------+
-| id | color | cotton_part | quantity |
-+----+-------+-------------+----------+
-|  1 | BLUE  |          65 |        5 |
-|  2 | RED   |          80 |       25 |
-|  3 | GREEN |          95 |       10 |
-|  4 | RED   |          70 |       30 |
-+----+-------+-------------+----------+
-
-//******//
-
-
-Зависимости (pom.xml):
-
-<dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-
-Настройка Spring (application.properties):
-
-spring.datasource.url=jdbc:mysql://localhost:3306/sockstorage
-spring.datasource.username=root
-spring.datasource.password=root
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
+(более подробно в файле "readme project.txt")
 
 Основные этапы создания проекта:
 
